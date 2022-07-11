@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Change Log</title>
+</head>
+<body>
+
+<div class="m-3 d-flex flex-column max-w-xl">
+    <div class="text-xl m-3">
+        <h1>Change Log</h1>
+    </div>
+    <hr/>
+    <div>
+        <ul id="commit-list"></ul>
+    </div>
+</div>
+
+</body>
+</html>
+<script defer>
+    const commitList = document.getElementById("commit-list")
+    console.log("port", {{.Port}})
+    const url = "http://localhost:{{.Port}}/api/commits"
+    console.log(url)
+    fetch(url)
+        .then(response => response.json())
+        .then(payload => {
+            const commits = payload.data
+            for (let c of commits) {
+                commitList.innerHTML += `<li class="card">${c.message}</li>`;
+            }
+        })
+        .catch(err => console.error(err))
+</script>
+
+<style>
+    li {
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
